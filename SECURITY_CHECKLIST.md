@@ -89,3 +89,4 @@ SafeRoute implements strict object-level authorization across all private endpoi
 - **Mongoose Schema Typing**: All queries use typed Mongoose schemas, preventing type-juggling NoSQL injection payloads (e.g. `{ "email": { "$gt": "" } }`).
 - **CastError Mapping**: Unformatted ObjectIds (e.g. `invalid-id`) are caught by centralized middleware and returned as `404 Not Found` rather than crashing the Node.js process.
 - **URI Password Masking**: Connection loggers mask database credentials (`mongodb+srv://admin:****@cluster...`) to prevent credential leakage into server log streams.
+

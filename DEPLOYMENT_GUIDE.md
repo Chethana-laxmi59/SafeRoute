@@ -174,3 +174,4 @@ After your frontend is live:
 | **Render Web Service Sleeps (Cold Start)** | Free-tier spin-down after 15 min of inactivity | Allow 30–50 seconds on initial wake-up request. |
 | **404 on Page Refresh on Vercel** | Missing rewrite rule | Ensure `client/vercel.json` is committed with `{"rewrites": [{"source": "/(.*)", "destination": "/index.html"}]}`. |
 | **MongoDB MongooseServerSelectionError** | IP address not whitelisted or incorrect URI | Ensure MongoDB Atlas has `0.0.0.0/0` in Network Access whitelist and database credentials are correct. |
+

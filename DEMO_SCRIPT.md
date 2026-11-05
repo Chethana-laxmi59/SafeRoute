@@ -124,3 +124,4 @@ This document is a step-by-step presentation script designed for 3rd-year engine
 
 ### Q4: *"What happens if a user's phone has GPS disabled during an emergency?"*
 > **Answer**: *"SafeRoute uses a graceful degradation strategy. If geolocation permissions are denied or GPS hardware is unavailable, the emergency alert is still dispatched and recorded with a null coordinate payload. The incident log and trusted contacts clearly indicate that coordinates were unavailable, ensuring the distress alert is never blocked."*
+

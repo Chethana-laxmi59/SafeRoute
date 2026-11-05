@@ -95,3 +95,4 @@ While SafeRoute is completely functional and architected for academic and demo e
 2. **WebSocket Real-Time Tracking**: Upgrading from polling to Socket.io / WebSockets for live GPS route tracking by trusted guardians during an active commute.
 3. **HttpOnly Cookie Partitioning**: Transitioning from `localStorage` JWT storage to secure `HttpOnly` same-site cookies once unified custom domains are established.
 4. **Offline PWA Capabilities**: Introducing service worker caching for offline access to safety guides and emergency dialers during cellular dead zones.
+
