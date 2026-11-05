@@ -14,7 +14,8 @@ import {
   CheckCircle2,
   Lock,
   Sparkles,
-  UserPlus
+  UserPlus,
+  Navigation
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
@@ -244,6 +245,29 @@ const DashboardPage = () => {
           </div>
         </div>
 
+      </div>
+
+      {/* Interactive Safety Map Quick Action Banner */}
+      <div className="p-6 rounded-3xl bg-gradient-to-r from-navy-900 via-navy-850 to-navy-900 border border-brand-700/40 shadow-soft-purple flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="flex items-center space-x-3.5">
+          <div className="w-12 h-12 rounded-2xl bg-brand-950 border border-brand-700/50 flex items-center justify-center text-pinkAccent-400 flex-shrink-0">
+            <MapPin className="w-6 h-6" />
+          </div>
+          <div>
+            <h3 className="text-base font-bold text-white">Interactive Safety Map & Havens</h3>
+            <p className="text-xs text-slate-400">
+              Browse 24/7 verified police desks, emergency trauma centers, and women sanctuaries with OpenStreetMap.
+            </p>
+          </div>
+        </div>
+
+        <Link
+          to="/safety-map"
+          className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-pinkAccent-600 hover:from-brand-500 hover:to-pinkAccent-500 text-white text-xs font-bold shadow-soft-purple transition-all flex items-center space-x-1.5 flex-shrink-0"
+        >
+          <Navigation className="w-4 h-4" />
+          <span>Launch Safety Map</span>
+        </Link>
       </div>
 
       {/* Safety Helplines Quick Reminder */}

@@ -8,6 +8,7 @@ import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import ContactsPage from './pages/ContactsPage';
 import EmergencySOSPage from './pages/EmergencySOSPage';
+import SafetyMapPage from './pages/SafetyMapPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -43,6 +44,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <EmergencySOSPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="safety-map"
+              element={
+                <ProtectedRoute>
+                  <SafetyMapPage />
                 </ProtectedRoute>
               }
             />

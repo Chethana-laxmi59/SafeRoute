@@ -137,9 +137,12 @@ The frontend will start at `http://localhost:5173`.
   - Full SOS lifecycle API (create, get history, get active, resolve, cancel)
   - Clear Academic Demo Mode enforcement with zero false delivery claims
   - Live Emergency SOS Hub UI with pulsing radar trigger, location status, and resolve/cancel actions
-- [ ] **Phase 5: Interactive Safety Map & Resource Finder**
-  - Leaflet / OpenStreetMap integration
-  - Current location marker and safe haven overlays (police kiosks, hospitals)
+- [x] **Phase 5: Interactive Safety Map & Resource Finder**
+  - Leaflet & React Leaflet integration with OpenStreetMap tiles
+  - Consent-first user GPS location marker with accuracy circle
+  - SafetyResource Mongoose model with proximity calculations (Haversine formula)
+  - Category filters (Police Outposts, Hospitals, Community Safe Havens)
+  - Interactive resource markers, dark popups, search filtering, and call shortcuts
 - [ ] **Phase 6: Incident Audit History & Safety Guides**
   - Historical emergency event timeline
   - Self-defense and preventative safety tips repository

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Menu, X, PhoneCall, AlertTriangle, User, LogOut, LayoutDashboard, Users, BellRing } from 'lucide-react';
+import { Shield, Menu, X, PhoneCall, AlertTriangle, User, LogOut, LayoutDashboard, Users, BellRing, MapPin } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -75,6 +75,14 @@ const Navbar = () => {
                 >
                   <Users className="w-4 h-4 text-pinkAccent-400" />
                   <span>Trusted Circle</span>
+                </Link>
+
+                <Link
+                  to="/safety-map"
+                  className="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-navy-800 hover:bg-navy-750 text-slate-200 border border-navy-700 text-xs font-medium transition-colors"
+                >
+                  <MapPin className="w-4 h-4 text-brand-400" />
+                  <span>Safety Map</span>
                 </Link>
 
                 <Link
@@ -180,6 +188,14 @@ const Navbar = () => {
                 >
                   <Users className="w-4 h-4" />
                   <span>Trusted Guardian Circle</span>
+                </Link>
+                <Link
+                  to="/safety-map"
+                  onClick={() => setIsOpen(false)}
+                  className="w-full flex items-center justify-center space-x-2 py-2.5 rounded-lg text-sm font-medium text-slate-200 bg-navy-800 hover:bg-navy-750 border border-navy-750"
+                >
+                  <MapPin className="w-4 h-4 text-brand-400" />
+                  <span>Interactive Safety Map</span>
                 </Link>
                 <Link
                   to="/sos"

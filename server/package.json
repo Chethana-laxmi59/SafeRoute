@@ -9,7 +9,8 @@
     "dev": "nodemon server.js",
     "test:auth": "node testAuth.js",
     "test:contacts": "node testContacts.js",
-    "test:sos": "node testSOS.js"
+    "test:sos": "node testSOS.js",
+    "test:resources": "node testResources.js"
   },
   "keywords": [
     "express",
