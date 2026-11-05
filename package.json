@@ -1,0 +1,18 @@
+{
+  "name": "saferoute-monorepo",
+  "version": "1.0.0",
+  "description": "SafeRoute - Women Safety & Emergency Assistance Platform",
+  "scripts": {
+    "server": "npm --prefix server run dev",
+    "client": "npm --prefix client run dev"
+  },
+  "keywords": [
+    "safety",
+    "emergency",
+    "mern",
+    "women-safety"
+  ],
+  "author": "",
+  "license": "ISC"
+}
+
