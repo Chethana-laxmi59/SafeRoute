@@ -120,10 +120,12 @@ The frontend will start at `http://localhost:5173`.
   - React + Vite + Tailwind CSS setup with custom brand palette
   - Live API connection indicator on landing page
   - Emergency hotline quick-dial reference and ethical safety disclosure
-- [ ] **Phase 2: Authentication & User Management**
+- [x] **Phase 2: Authentication & User Management**
   - Mongoose User schema with bcrypt password hashing
   - JWT generation and cookie/authorization header verification middleware
-  - Register & Login UI with validation and error alerts
+  - Register & Login UI with validation, loading states, and error alerts
+  - AuthContext state management with token verification
+  - Protected routes and authenticated User Dashboard
 - [ ] **Phase 3: Trusted Contacts Management**
   - TrustedContact model (relationship, phone number, priority)
   - CRUD API routes protected with JWT
@@ -150,3 +152,4 @@ The frontend will start at `http://localhost:5173`.
 SafeRoute is developed as a computer engineering college project. In life-threatening emergencies, never rely solely on an academic web application—call official local emergency dispatch services directly:
 - **India**: 112 (National Emergency), 1091 (Women Safety Helpline), 181 (Women in Distress)
 - **International**: 911 (USA/Canada), 999 (UK), 112 (European Union)
+

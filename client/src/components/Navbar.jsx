@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
-import { Shield, Menu, X, PhoneCall, AlertTriangle } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Shield, Menu, X, PhoneCall, AlertTriangle, User, LogOut, LayoutDashboard } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 /**
  * Main application navigation bar.
- * Responsive with mobile hamburger menu and quick emergency numbers indicator.
+ * Responsive with mobile hamburger menu, quick emergency numbers indicator,
+ * and adaptive authentication controls.
  */
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { isAuthenticated, user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+    setIsOpen(false);
+  };
 
   return (
     <nav className="sticky top-0 z-50 bg-navy-900/90 backdrop-blur-md border-b border-navy-800">
@@ -30,13 +40,13 @@ const Navbar = () => {
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#features" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
+            <a href="/#features" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
               Features
             </a>
-            <a href="#how-it-works" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
+            <a href="/#how-it-works" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
               How It Works
             </a>
-            <a href="#demo-notice" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
+            <a href="/#demo-notice" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
               Safety Protocol
             </a>
             
@@ -47,20 +57,50 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Action Buttons */}
+          {/* Action Buttons: Conditional on Auth State */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link
-              to="/login"
-              className="text-sm font-medium text-slate-300 hover:text-white px-3 py-2 rounded-lg hover:bg-navy-800 transition-colors"
-            >
-              Sign In
-            </Link>
-            <Link
-              to="/register"
-              className="text-sm font-medium text-white bg-gradient-to-r from-brand-600 to-pinkAccent-600 hover:from-brand-500 hover:to-pinkAccent-500 px-4 py-2 rounded-lg shadow-sm hover:shadow-soft-purple transition-all duration-200"
-            >
-              Get Started
-            </Link>
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-3">
+                <Link
+                  to="/dashboard"
+                  className="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-navy-800 hover:bg-navy-750 text-slate-200 border border-navy-700 text-xs font-medium transition-colors"
+                >
+                  <LayoutDashboard className="w-4 h-4 text-brand-400" />
+                  <span>Dashboard</span>
+                </Link>
+
+                <div className="flex items-center space-x-2 pl-2 border-l border-navy-800">
+                  <div className="w-8 h-8 rounded-lg bg-brand-900/80 border border-brand-700/60 flex items-center justify-center text-xs font-bold text-pinkAccent-300">
+                    {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                  </div>
+                  <span className="text-xs font-medium text-slate-300 max-w-[120px] truncate">
+                    {user?.name}
+                  </span>
+                  <button
+                    onClick={handleLogout}
+                    title="Sign Out"
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-navy-800 transition-colors ml-1"
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="text-sm font-medium text-slate-300 hover:text-white px-3 py-2 rounded-lg hover:bg-navy-800 transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/register"
+                  className="text-sm font-medium text-white bg-gradient-to-r from-brand-600 to-pinkAccent-600 hover:from-brand-500 hover:to-pinkAccent-500 px-4 py-2 rounded-lg shadow-sm hover:shadow-soft-purple transition-all duration-200"
+                >
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Hamburger Toggle */}
@@ -80,21 +120,21 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden bg-navy-900 border-b border-navy-800 px-4 pt-3 pb-6 space-y-3">
           <a
-            href="#features"
+            href="/#features"
             onClick={() => setIsOpen(false)}
             className="block px-3 py-2 rounded-lg text-base font-medium text-slate-300 hover:bg-navy-800 hover:text-white"
           >
             Features
           </a>
           <a
-            href="#how-it-works"
+            href="/#how-it-works"
             onClick={() => setIsOpen(false)}
             className="block px-3 py-2 rounded-lg text-base font-medium text-slate-300 hover:bg-navy-800 hover:text-white"
           >
             How It Works
           </a>
           <a
-            href="#demo-notice"
+            href="/#demo-notice"
             onClick={() => setIsOpen(false)}
             className="block px-3 py-2 rounded-lg text-base font-medium text-slate-300 hover:bg-navy-800 hover:text-white"
           >
@@ -106,20 +146,43 @@ const Navbar = () => {
               <AlertTriangle className="w-4 h-4 text-rose-400 flex-shrink-0" />
               <span>Emergency Services: Dial <strong>112 / 1091</strong> directly</span>
             </div>
-            <Link
-              to="/login"
-              onClick={() => setIsOpen(false)}
-              className="w-full text-center py-2.5 rounded-lg text-sm font-medium text-slate-300 bg-navy-800 hover:bg-navy-700"
-            >
-              Sign In
-            </Link>
-            <Link
-              to="/register"
-              onClick={() => setIsOpen(false)}
-              className="w-full text-center py-2.5 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-brand-600 to-pinkAccent-600"
-            >
-              Get Started
-            </Link>
+
+            {isAuthenticated ? (
+              <>
+                <Link
+                  to="/dashboard"
+                  onClick={() => setIsOpen(false)}
+                  className="w-full flex items-center justify-center space-x-2 py-2.5 rounded-lg text-sm font-medium text-white bg-brand-600 hover:bg-brand-500"
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  <span>Go to Dashboard</span>
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center justify-center space-x-2 py-2.5 rounded-lg text-sm font-medium text-rose-400 bg-navy-800 hover:bg-navy-750"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Sign Out ({user?.name})</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  onClick={() => setIsOpen(false)}
+                  className="w-full text-center py-2.5 rounded-lg text-sm font-medium text-slate-300 bg-navy-800 hover:bg-navy-700"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/register"
+                  onClick={() => setIsOpen(false)}
+                  className="w-full text-center py-2.5 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-brand-600 to-pinkAccent-600"
+                >
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}
@@ -128,4 +191,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

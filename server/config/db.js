@@ -5,8 +5,9 @@ import mongoose from 'mongoose';
  * Gracefully handles errors and logs connection status
  */
 const connectDB = async () => {
+  const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/saferoute';
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
+    const conn = await mongoose.connect(mongoUri, {
       // Modern mongoose options are enabled by default in v6+
     });
     console.log(`[Database] MongoDB Connected: ${conn.connection.host}`);
