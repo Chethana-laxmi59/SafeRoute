@@ -529,3 +529,4 @@ const IncidentHistoryPage = () => {
 };
 
 export default IncidentHistoryPage;
+

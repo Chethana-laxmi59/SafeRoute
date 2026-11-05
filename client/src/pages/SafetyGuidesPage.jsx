@@ -525,3 +525,4 @@ const SafetyGuidesPage = () => {
 };
 
 export default SafetyGuidesPage;
+

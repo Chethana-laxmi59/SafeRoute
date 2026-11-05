@@ -8,13 +8,15 @@ import {
   cancelSOSEvent,
 } from '../controllers/sosController.js';
 import { protect } from '../middleware/auth.js';
+import { sosLimiter } from '../middleware/rateLimiter.js';
 
 const router = express.Router();
 
 // Apply JWT authentication protection to all SOS routes
 router.use(protect);
 
-router.post('/', triggerSOS);
+// Emergency SOS trigger (Rate limited to mitigate automated denial-of-service)
+router.post('/', sosLimiter, triggerSOS);
 router.get('/history', getSOSHistory);
 router.get('/active', getActiveSOSEvent);
 router.get('/:id', getSOSEventById);

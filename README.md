@@ -1,91 +1,124 @@
 # SafeRoute — Women Safety & Emergency Assistance Platform
 
-A modern, full-stack MERN (MongoDB, Express, React, Node.js) web application engineered to provide women and vulnerable commuters with rapid emergency assistance, trusted contact network coordination, consent-based geolocation broadcasting, and interactive safety mapping.
+A modern, full-stack MERN (MongoDB Atlas, Express.js, React 18, Node.js) web application engineered to provide women and vulnerable commuters with rapid emergency assistance, trusted contact network coordination, consent-based geolocation broadcasting, interactive safety resource mapping, and actionable legal literacy.
 
 ---
 
-## 🌟 Key Features Overview
+## 📌 Project Overview & Abstract
 
-- **🚨 One-Tap Emergency SOS**: Broadcast real-time distress signals with geolocation coordinates and immediate delivery confirmation.
-- **👥 Trusted Guardian Circle**: Secure CRUD management for designated family members, roommates, and mentors.
-- **🗺️ Interactive Safety Map**: OpenStreetMap & Leaflet integration highlighting verified safe havens, police stations, 24/7 medical centers, and women help desks.
-- **🔒 Privacy-First Architecture**: Strictly consent-driven geolocation; no background tracking without explicit user authorization.
-- **📋 Auditable Incident Logs**: Timestamped emergency history with delivery statuses and coordinates for post-event review.
-- **⚖️ Ethical Emergency Disclosure**: Transparent differentiation between simulated college demo mode and live external dispatch (e.g., Twilio SMS).
+### Problem Statement
+Personal safety during daily commutes, late-night transit, and unfamiliar urban environments remains a significant concern. Many existing safety tools either suffer from intrusive continuous background tracking, complex multi-step navigation during crises, or a lack of transparent local safety resource information (police outposts, 24/7 hospitals, safe havens).
 
----
-
-## 🏗️ Architecture & Technology Stack
-
-### Frontend (`/client`)
-- **Framework**: [React 18](https://react.dev/) + [Vite](https://vitejs.dev/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/) with a custom Dark Navy, Rich Purple, and Vibrant Pink palette
-- **Routing**: [React Router DOM v6](https://reactrouter.com/)
-- **Icons**: [Lucide React](https://lucide.dev/)
-- **HTTP Client**: [Axios](https://axios-http.com/) with centralized interceptors and environment variable injection
-- **Mapping**: [Leaflet](https://leafletjs.com/) & [React-Leaflet](https://react-leaflet.js.org/) with OpenStreetMap tiles
-
-### Backend (`/server`)
-- **Runtime**: [Node.js](https://nodejs.org/) (ES Modules)
-- **Framework**: [Express.js](https://expressjs.com/)
-- **Database**: [MongoDB Atlas](https://www.mongodb.com/atlas) with [Mongoose](https://mongoosejs.com/) ODM
-- **Authentication**: JSON Web Tokens (JWT) & `bcryptjs` password hashing
-- **Security & Utilities**: `cors`, `dotenv`
+### Objectives
+1. **Rapid Crisis Beacon**: Provide an intuitive, high-visibility Emergency SOS trigger with one-click geolocation acquisition.
+2. **Privacy-First Consent**: Enforce explicit, consent-driven GPS acquisition without non-consensual background surveillance.
+3. **Guardian Coordination**: Enable users to curate a personal network of verified emergency contacts with direct dial and messaging shortcuts.
+4. **Community Resource Mapping**: Offer an interactive OpenStreetMap interface showing nearby verified emergency services, with real-time distance calculations.
+5. **Legal & Preventative Empowerment**: Deliver structured, searchable safety guides and constitutional legal rights (Zero FIR, Free Legal Aid, Workplace Protections).
+6. **Ethical Academic Transparency**: Strictly demarcate demonstration features from real external emergency dispatch to avoid generating false panic.
 
 ---
 
-## 📁 Repository Structure
+## 🏗️ System Architecture
 
-```text
-SafeRoute/
-├── client/                     # Frontend Vite + React application
-│   ├── public/                 # Static assets & favicons
-│   ├── src/
-│   │   ├── assets/             # Images, vector icons, media
-│   │   ├── components/         # Reusable UI components (Navbar, Footer, Modals)
-│   │   ├── context/            # React Context providers (AuthContext, SocketContext)
-│   │   ├── hooks/              # Custom React hooks (useGeolocation, useAuth)
-│   │   ├── layouts/            # Layout wrappers (MainLayout, DashboardLayout)
-│   │   ├── pages/              # Routed views (LandingPage, Login, Register, Dashboard)
-│   │   ├── services/           # API instances and backend endpoints
-│   │   ├── utils/              # Client-side helper functions & formatters
-│   │   ├── App.jsx             # Route definitions
-│   │   ├── index.css           # Tailwind directives and base styles
-│   │   └── main.jsx            # React root mount
-│   ├── .env.example            # Client environment template
-│   ├── package.json            # Client dependencies
-│   ├── tailwind.config.js      # Custom theme colors and shadows
-│   └── vite.config.js          # Vite build configuration
-│
-├── server/                     # Backend Node.js + Express REST API
-│   ├── config/                 # DB connection and third-party configs
-│   ├── controllers/            # Route controllers for auth, contacts, SOS
-│   ├── middleware/             # Auth verification, error handlers, input validators
-│   ├── models/                 # Mongoose schemas (User, Contact, EmergencyEvent)
-│   ├── routes/                 # Express route definitions
-│   ├── services/               # External services (SMS notifications, Geocoding)
-│   ├── utils/                  # Server helper functions
-│   ├── .env.example            # Server environment template
-│   ├── package.json            # Server dependencies
-│   └── server.js               # Express entrypoint & health checks
-│
-├── .gitignore                  # Git exclusions for dependencies and secrets
-├── package.json                # Root package manager orchestration scripts
-└── README.md                   # Project documentation
+```mermaid
+graph TD
+    User["Commuter / User Browser"]
+    Vercel["Frontend SPA (React 18 + Vite + Tailwind CSS)<br/>Hosted on Vercel Edge"]
+    Render["REST API Backend (Node.js + Express.js)<br/>Hosted on Render"]
+    Atlas[("Cloud Database<br/>MongoDB Atlas Cluster")]
+    OSM["OpenStreetMap Tile Server<br/>Raster Map Tiles"]
+
+    User -->|"HTTPS (Port 443)"| Vercel
+    Vercel -->|"REST API Calls with JWT Bearer Token"| Render
+    Vercel -->|"Fetch Map Tiles"| OSM
+    Render -->|"Mongoose TLS Encrypted Connection"| Atlas
+
+    subgraph Security & Middleware
+        Render --- Helmet["Helmet Security Headers"]
+        Render --- Limiter["Express Rate Limiting"]
+        Render --- CORS["Strict Origin CORS Policy"]
+        Render --- Protect["JWT Auth Middleware & Multi-User Isolation"]
+    end
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🌟 Key Features
+
+- **🚨 One-Tap Emergency SOS**: Instant distress alert recording with real-time GPS coordinates, accuracy radius, and simulated delivery logging.
+- **👥 Trusted Guardian Circle**: Secure CRUD management for designated family members, peers, and mentors with search and quick-dial actions.
+- **🗺️ Interactive Safety Map**: OpenStreetMap + Leaflet integration with proximity calculation (Haversine formula), radius filters, and categorized emergency markers.
+- **📋 Auditable Incident Log**: Historical emergency timeline with status filtering (Active, Resolved, Cancelled), date picker, and OpenStreetMap pin links.
+- **📚 Safety Guides & Legal Rights**: Categorized guide library covering transit safety, cyber defense, crisis de-escalation, and Indian constitutional protections (Zero FIR, Article 39A).
+- **🔒 Profile & Account Settings**: Profile customization with server-side validation and field immutability guards (email, password, role tampering prevention).
+- **🛡️ Production Hardened**: Helmet HTTP headers, DoS payload size limits (100kb), brute-force rate limiters, and complete stack trace suppression.
+
+---
+
+## 📊 Database Models
+
+| Model | Collection | Key Fields | Purpose |
+|---|---|---|---|
+| **User** | `users` | `name`, `email` (unique), `password` (bcrypt hash), `phone`, `role`, `createdAt` | Authentication, JWT payload generation, and identity management. |
+| **TrustedContact** | `trustedcontacts` | `user` (ref: User), `name`, `phone`, `relationship`, `timestamps` | Designating guardian circle members scoped strictly per user. |
+| **EmergencyEvent** | `emergencyevents` | `user` (ref: User), `latitude`, `longitude`, `accuracy`, `status` (active/resolved/cancelled), `alertMode` (demo), `deliveryDetails` | Auditable timestamped emergency incident records. |
+| **SafetyResource** | `safetyresources` | `name`, `category` (police/hospital/safe_haven), `latitude`, `longitude`, `address`, `phone`, `operatingHours`, `isDemo` | Open-source emergency places for interactive mapping. |
+
+---
+
+## 🔌 API Endpoints Reference
+
+### Authentication & Profile (`/api/auth`)
+| Method | Endpoint | Access | Description | Rate Limited |
+|---|---|:---:|---|:---:|
+| `POST` | `/api/auth/register` | Public | Register new user account | Yes (15 / 15 min) |
+| `POST` | `/api/auth/login` | Public | Authenticate user & receive JWT token | Yes (15 / 15 min) |
+| `GET` | `/api/auth/me` | Protected | Fetch current authenticated user session | No |
+| `PATCH` | `/api/auth/profile` | Protected | Update profile name and phone (email immutable) | No |
+
+### Trusted Contacts (`/api/contacts`)
+| Method | Endpoint | Access | Description |
+|---|---|:---:|---|
+| `POST` | `/api/contacts` | Protected | Add new trusted contact to user circle |
+| `GET` | `/api/contacts` | Protected | List all contacts belonging to authenticated user |
+| `GET` | `/api/contacts/:id` | Protected | Retrieve specific contact details (403 on cross-user) |
+| `PUT` | `/api/contacts/:id` | Protected | Update existing contact (403 on cross-user) |
+| `DELETE`| `/api/contacts/:id` | Protected | Delete contact from user circle (403 on cross-user) |
+
+### Emergency SOS (`/api/sos`)
+| Method | Endpoint | Access | Description | Rate Limited |
+|---|---|:---:|---|:---:|
+| `POST` | `/api/sos` | Protected | Trigger new Emergency SOS event | Yes (15 / 1 min) |
+| `GET` | `/api/sos/history` | Protected | Retrieve authenticated user's incident history | No |
+| `GET` | `/api/sos/active` | Protected | Query currently active emergency event | No |
+| `GET` | `/api/sos/:id` | Protected | Fetch specific incident audit details | No |
+| `PATCH` | `/api/sos/:id/resolve`| Protected | Mark active incident as safely resolved | No |
+| `PATCH` | `/api/sos/:id/cancel` | Protected | Cancel false-alarm incident | No |
+
+### Safety Resources (`/api/resources`)
+| Method | Endpoint | Access | Description |
+|---|---|:---:|---|
+| `GET` | `/api/resources` | Protected | List demo safety resources with optional `category`, `lat`, `lng`, `radius` |
+| `GET` | `/api/resources/:id` | Protected | Fetch specific safety resource by MongoDB ObjectId |
+
+### System Health
+| Method | Endpoint | Access | Description |
+|---|---|:---:|---|
+| `GET` | `/api/health` | Public | Live server status, environment mode, and uptime timestamp |
+
+---
+
+## 💻 Local Installation & Setup
 
 ### 1. Prerequisites
 - **Node.js** v18+ installed
 - **Git** installed
-- **MongoDB** running locally or a free [MongoDB Atlas](https://www.mongodb.com/atlas) connection URI
+- **MongoDB** running locally (`127.0.0.1:27017`) or a free [MongoDB Atlas](https://www.mongodb.com/atlas) connection URI
 
-### 2. Clone & Setup
+### 2. Clone Repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/your-username/SafeRoute.git
 cd SafeRoute
 ```
 
@@ -93,71 +126,86 @@ cd SafeRoute
 ```bash
 cd server
 cp .env.example .env
-# Edit .env and supply your MONGO_URI and JWT_SECRET
+# Configure MONGODB_URI and JWT_SECRET in server/.env
 npm install
 npm run dev
 ```
-The server will boot on `http://localhost:5000`. Test the health check endpoint at:
-`http://localhost:5000/api/health`
+*Backend runs on `http://localhost:5000`.*
 
 ### 4. Frontend Setup
-In a new terminal window:
+In a new terminal:
 ```bash
 cd client
 cp .env.example .env
+# VITE_API_BASE_URL=http://localhost:5000/api
 npm install
 npm run dev
 ```
-The frontend will start at `http://localhost:5173`.
+*Frontend runs on `http://localhost:5173`.*
 
 ---
 
-## 🛡️ Development Roadmap
+## 🧪 Automated Testing Suite
 
-- [x] **Phase 1: Project Foundation & Responsive Landing UI**
-  - Project architecture & directory structure initialization
-  - Express server with health check route & centralized error handling
-  - React + Vite + Tailwind CSS setup with custom brand palette
-  - Live API connection indicator on landing page
-  - Emergency hotline quick-dial reference and ethical safety disclosure
-- [x] **Phase 2: Authentication & User Management**
-  - Mongoose User schema with bcrypt password hashing
-  - JWT generation and cookie/authorization header verification middleware
-  - Register & Login UI with validation, loading states, and error alerts
-  - AuthContext state management with token verification
-  - Protected routes and authenticated User Dashboard
-- [x] **Phase 3: Trusted Contacts Management**
-  - TrustedContact Mongoose model (linked to user ObjectId)
-  - Full CRUD REST API with ownership authorization and phone format validation
-  - Strict cross-user data isolation enforcement (403 Forbidden on cross-user access)
-  - Responsive Contact Circle management UI with Add/Edit modal, empty states, search filtering, and quick dial/SMS actions
-- [x] **Phase 4: Emergency SOS & Geolocation Broadcast**
-  - EmergencyEvent Mongoose model with coordinates, accuracy, and audit log
-  - Browser Geolocation API hook with strict consent-first triggering and error handling
-  - Full SOS lifecycle API (create, get history, get active, resolve, cancel)
-  - Clear Academic Demo Mode enforcement with zero false delivery claims
-  - Live Emergency SOS Hub UI with pulsing radar trigger, location status, and resolve/cancel actions
-- [x] **Phase 5: Interactive Safety Map & Resource Finder**
-  - Leaflet & React Leaflet integration with OpenStreetMap tiles
-  - Consent-first user GPS location marker with accuracy circle
-  - SafetyResource Mongoose model with proximity calculations (Haversine formula)
-  - Category filters (Police Outposts, Hospitals, Community Safe Havens)
-  - Interactive resource markers, dark popups, search filtering, and call shortcuts
-- [x] **Phase 6: Incident History, Safety Guides & User Profile**
-  - **Module 1: Emergency Incident Log**: Full timeline with status filtering (Active, Resolved, Cancelled), date range picker, sorting, detailed audit inspection modal, and OpenStreetMap pin links.
-  - **Module 2: Comprehensive Safety Guides**: Categorized actionable repositories (Commute Safety, Cyber Safety, Crisis Response, and Constitutional/Legal Rights including Zero FIR & Free Legal Aid) with real-time keyword search and `localStorage` bookmark persistence.
-  - **Module 3: User Profile & Security Settings**: Protected `PATCH /api/auth/profile` endpoint with server-side validation, field immutability guards (email, password, `_id` protected against tampering), account metrics, and security checklists.
-  - **Full Automated Testing**: 22 dedicated automated test cases verifying profile updates, tamper resistance, and cross-user incident history data isolation (76 total passing tests across the project).
-- [ ] **Phase 7: Testing, Hardening & Deployment**
-  - Frontend deployment on Vercel
-  - Backend deployment on Render
-  - MongoDB Atlas production configuration
+SafeRoute features 96 passing automated tests covering all modules:
+
+```bash
+# Run Authentication Suite (10 tests)
+cd server && npm run test:auth
+
+# Run Trusted Contacts CRUD & Security Suite (16 tests)
+cd server && npm run test:contacts
+
+# Run Emergency SOS & Geolocation Lifecycle Suite (17 tests)
+cd server && npm run test:sos
+
+# Run Safety Resources & Proximity Suite (11 tests)
+cd server && npm run test:resources
+
+# Run Incident History, Profile & Immutability Suite (22 tests)
+cd server && npm run test:phase6
+
+# Run Production Hardening, Helmet, CORS & Payload Suite (20 tests)
+cd server && npm run test:hardening
+
+# Verify Frontend Production Build
+cd client && npm run build
+```
 
 ---
 
-## ⚠️ Academic Disclaimer
+## 🚀 Cloud Deployment
 
-SafeRoute is developed as a computer engineering college project. In life-threatening emergencies, never rely solely on an academic web application—call official local emergency dispatch services directly:
-- **India**: 112 (National Emergency), 1091 (Women Safety Helpline), 181 (Women in Distress)
-- **International**: 911 (USA/Canada), 999 (UK), 112 (European Union)
+Detailed step-by-step instructions are provided in [`DEPLOYMENT_GUIDE.md`](./DEPLOYMENT_GUIDE.md).
 
+- **Database**: MongoDB Atlas M0 Free Cluster (`MONGODB_URI`)
+- **Backend**: Render Free Web Service with Node runtime
+- **Frontend**: Vercel SPA with `client/vercel.json` rewrite configuration
+
+---
+
+## 📑 Project Documentation Index
+
+- **[Deployment Guide](./DEPLOYMENT_GUIDE.md)**: Cloud provisioning steps for Atlas, Render, and Vercel.
+- **[Security Audit Checklist](./SECURITY_CHECKLIST.md)**: Threat modeling, rate limits, JWT trade-offs, and multi-user isolation verification.
+- **[Demonstration & Viva Script](./DEMO_SCRIPT.md)**: Step-by-step examiner presentation script with model viva Q&A.
+- **[Project Completion Report](./PROJECT_COMPLETION_REPORT.md)**: Comprehensive academic completion report and technical specifications.
+
+---
+
+## 👥 Project Team
+
+| Name | Roll / Student ID | Contribution Focus |
+|---|---|---|
+| **[Student 1 Name]** | `[Roll Number]` | Full-Stack Architecture, Express API & Hardening |
+| **[Student 2 Name]** | `[Roll Number]` | Frontend UI/UX, Leaflet Safety Map & Routing |
+| **[Student 3 Name]** | `[Roll Number]` | Emergency SOS Geolocation Engine & Testing Suite |
+| **[Project Guide / Mentor]** | `[Designation / Dept]` | Faculty Project Supervisor & Architecture Review |
+
+---
+
+## ⚠️ Academic Safety & Ethical Notice
+
+SafeRoute was designed and built as a computer engineering college project. In life-threatening emergencies, never rely solely on an academic web application—call official local emergency dispatch services directly:
+- **India**: **112** (National Emergency), **1091** (Women Safety Helpline), **181** (Women in Distress), **1930** (Cyber Crime)
+- **USA / Canada**: **911** | **United Kingdom**: **999** | **European Union**: **112**

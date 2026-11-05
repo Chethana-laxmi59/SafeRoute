@@ -165,15 +165,18 @@ export const DEMO_SAFETY_RESOURCES = [
 ];
 
 /**
- * Automatically seeds demo safety resources into MongoDB if collection is empty
+ * Automatically seeds demo safety resources into MongoDB.
+ * Completely idempotent: avoids duplicate seed entries on repeated startup or clustering.
  */
 export const seedDefaultResources = async () => {
   try {
-    const count = await SafetyResource.countDocuments();
-    if (count === 0) {
-      console.log('[Seed] Initializing demonstration safety resources...');
+    const existingCount = await SafetyResource.countDocuments();
+    if (existingCount === 0) {
+      console.log('[Seed] Seeding initial demonstration safety resources...');
       await SafetyResource.insertMany(DEMO_SAFETY_RESOURCES);
-      console.log(`[Seed] Seeded ${DEMO_SAFETY_RESOURCES.length} demo safety resources.`);
+      console.log(`[Seed] Successfully inserted ${DEMO_SAFETY_RESOURCES.length} demo safety resources.`);
+    } else {
+      console.log(`[Seed] Demo safety resources already present (${existingCount} found). Skipping duplication.`);
     }
   } catch (err) {
     console.warn('[Seed Error] Could not initialize demo resources:', err.message);
