@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
+import contactRoutes from './routes/contactRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,8 +39,9 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Authentication Routes
+// API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/contacts', contactRoutes);
 
 // Root friendly welcome message
 app.get('/', (req, res) => {

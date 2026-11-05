@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Menu, X, PhoneCall, AlertTriangle, User, LogOut, LayoutDashboard } from 'lucide-react';
+import { Shield, Menu, X, PhoneCall, AlertTriangle, User, LogOut, LayoutDashboard, Users } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -67,6 +67,14 @@ const Navbar = () => {
                 >
                   <LayoutDashboard className="w-4 h-4 text-brand-400" />
                   <span>Dashboard</span>
+                </Link>
+
+                <Link
+                  to="/contacts"
+                  className="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-navy-800 hover:bg-navy-750 text-slate-200 border border-navy-700 text-xs font-medium transition-colors"
+                >
+                  <Users className="w-4 h-4 text-pinkAccent-400" />
+                  <span>Trusted Circle</span>
                 </Link>
 
                 <div className="flex items-center space-x-2 pl-2 border-l border-navy-800">
@@ -156,6 +164,14 @@ const Navbar = () => {
                 >
                   <LayoutDashboard className="w-4 h-4" />
                   <span>Go to Dashboard</span>
+                </Link>
+                <Link
+                  to="/contacts"
+                  onClick={() => setIsOpen(false)}
+                  className="w-full flex items-center justify-center space-x-2 py-2.5 rounded-lg text-sm font-medium text-pinkAccent-300 bg-navy-800 hover:bg-navy-750 border border-navy-750"
+                >
+                  <Users className="w-4 h-4" />
+                  <span>Trusted Guardian Circle</span>
                 </Link>
                 <button
                   onClick={handleLogout}

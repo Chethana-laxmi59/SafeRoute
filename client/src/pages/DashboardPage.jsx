@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Shield, 
   User, 
@@ -13,13 +13,34 @@ import {
   ArrowRight,
   CheckCircle2,
   Lock,
-  Sparkles
+  Sparkles,
+  UserPlus
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
+import api from '../services/api';
 
 const DashboardPage = () => {
   const { user, logout } = useAuth();
+  const [contactCount, setContactCount] = useState(0);
+  const [loadingContacts, setLoadingContacts] = useState(true);
+
+  useEffect(() => {
+    const fetchContactCount = async () => {
+      try {
+        const response = await api.get('/contacts');
+        if (response.data?.success) {
+          setContactCount(response.data.count || 0);
+        }
+      } catch (err) {
+        console.warn('Could not fetch contact count:', err.message);
+      } finally {
+        setLoadingContacts(false);
+      }
+    };
+
+    fetchContactCount();
+  }, []);
 
   // Format date helper
   const formatDate = (isoString) => {
@@ -121,36 +142,44 @@ const DashboardPage = () => {
           </div>
         </div>
 
-        {/* Phase 3 Roadmap Banner: Trusted Contacts */}
+        {/* Trusted Contacts Circle Card */}
         <div className="p-6 rounded-2xl bg-navy-900 border border-navy-800 flex flex-col justify-between space-y-4">
           <div>
             <div className="flex items-center justify-between mb-4">
               <div className="w-10 h-10 rounded-xl bg-brand-950 border border-brand-700/50 flex items-center justify-center text-brand-400">
                 <Users className="w-5 h-5" />
               </div>
-              <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-brand-900/60 text-brand-300 border border-brand-700/50">
-                Module 3 Target
+              <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800">
+                Active Feature
               </span>
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Trusted Contacts Circle</h3>
             <p className="text-xs text-slate-400 leading-relaxed mb-4">
-              Your emergency contacts will receive automated SOS alerts and GPS coordinates when triggered.
+              Your designated emergency guardians who will receive instantaneous distress coordinates.
             </p>
             <div className="p-3 rounded-xl bg-navy-850 border border-navy-700/70 text-xs text-slate-300 space-y-1.5">
-              <div className="font-semibold text-pinkAccent-300">Contacts Configured: 0</div>
+              <div className="font-semibold text-pinkAccent-300 flex items-center justify-between">
+                <span>Guardians Configured:</span>
+                <span className="text-white font-mono font-bold text-sm">
+                  {loadingContacts ? '...' : contactCount}
+                </span>
+              </div>
               <p className="text-[11px] text-slate-400">
-                We will implement Trusted Contacts CRUD in the next module with priority ranking and relationship tags.
+                {contactCount > 0
+                  ? `${contactCount} contact(s) ready for SOS dispatch.`
+                  : 'No contacts configured yet. Add guardians to enable emergency alerts.'}
               </p>
             </div>
           </div>
 
           <div className="pt-2">
-            <button
-              disabled
-              className="w-full py-2.5 rounded-xl bg-navy-800 text-slate-400 text-xs font-semibold cursor-not-allowed border border-navy-700 flex items-center justify-center space-x-1"
+            <Link
+              to="/contacts"
+              className="w-full py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-pinkAccent-600 hover:from-brand-500 hover:to-pinkAccent-500 text-white text-xs font-semibold shadow-soft-purple transition-all flex items-center justify-center space-x-1.5"
             >
-              <span>Add Contacts (Available in Phase 3)</span>
-            </button>
+              <UserPlus className="w-4 h-4" />
+              <span>Manage Guardian Circle</span>
+            </Link>
           </div>
         </div>
 
