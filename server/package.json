@@ -10,7 +10,8 @@
     "test:auth": "node testAuth.js",
     "test:contacts": "node testContacts.js",
     "test:sos": "node testSOS.js",
-    "test:resources": "node testResources.js"
+    "test:resources": "node testResources.js",
+    "test:phase6": "node testPhase6.js"
   },
   "keywords": [
     "express",

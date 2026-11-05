@@ -117,6 +117,28 @@ export const AuthProvider = ({ children }) => {
     setError(null);
   };
 
+  /**
+   * Update user profile information
+   * @param {Object} profileData - { name, phone }
+   */
+  const updateProfile = async (profileData) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await api.patch('/auth/profile', profileData);
+      const updatedUser = response.data.user;
+      setUser(updatedUser);
+      localStorage.setItem('saferoute_user', JSON.stringify(updatedUser));
+      setLoading(false);
+      return { success: true, user: updatedUser };
+    } catch (err) {
+      const message = err.message || 'Failed to update profile.';
+      setError(message);
+      setLoading(false);
+      return { success: false, error: message };
+    }
+  };
+
   const value = {
     user,
     token,
@@ -127,6 +149,7 @@ export const AuthProvider = ({ children }) => {
     register,
     login,
     logout,
+    updateProfile,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

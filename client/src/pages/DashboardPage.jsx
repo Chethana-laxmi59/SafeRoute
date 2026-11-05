@@ -9,13 +9,15 @@ import {
   BellRing, 
   MapPin, 
   LogOut, 
-  AlertTriangle,
-  ArrowRight,
-  CheckCircle2,
-  Lock,
-  Sparkles,
-  UserPlus,
-  Navigation
+  AlertTriangle, 
+  ArrowRight, 
+  CheckCircle2, 
+  Lock, 
+  Sparkles, 
+  UserPlus, 
+  Navigation,
+  Clock,
+  BookOpen
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
@@ -87,6 +89,14 @@ const DashboardPage = () => {
           </div>
 
           <div className="flex items-center space-x-3">
+            <Link
+              to="/profile"
+              className="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-navy-800 hover:bg-navy-750 text-slate-200 border border-navy-700 text-xs font-semibold transition-colors"
+            >
+              <User className="w-4 h-4 text-brand-400" />
+              <span>Edit Profile</span>
+            </Link>
+
             <button
               onClick={logout}
               className="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-navy-800 hover:bg-navy-700 text-rose-300 border border-rose-900/40 text-xs font-semibold transition-colors"
@@ -268,6 +278,63 @@ const DashboardPage = () => {
           <Navigation className="w-4 h-4" />
           <span>Launch Safety Map</span>
         </Link>
+      </div>
+
+      {/* Module 1 & 2 Quick Action Cards: Incident Registry & Safety Guides */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        {/* Incident History Card */}
+        <div className="p-6 rounded-3xl bg-navy-900 border border-navy-800 flex flex-col justify-between space-y-4 shadow-sm hover:border-brand-500/40 transition-colors">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <div className="w-10 h-10 rounded-xl bg-brand-950 border border-brand-700/40 flex items-center justify-center text-brand-300">
+                <Clock className="w-5 h-5" />
+              </div>
+              <span className="text-[11px] font-semibold text-slate-400 bg-navy-850 px-2.5 py-0.5 rounded-full border border-navy-750 font-mono">
+                Registry
+              </span>
+            </div>
+            <h4 className="text-base font-bold text-white">Emergency Incident Registry</h4>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Review and audit your complete historical log of distress signals, coordinates, accuracy radiuses, and resolution timestamps.
+            </p>
+          </div>
+
+          <Link
+            to="/incident-history"
+            className="w-full py-2.5 rounded-xl bg-navy-800 hover:bg-navy-750 text-slate-200 border border-navy-700 text-xs font-semibold transition-colors flex items-center justify-center space-x-1.5"
+          >
+            <Clock className="w-4 h-4 text-brand-400" />
+            <span>View Incident History</span>
+          </Link>
+        </div>
+
+        {/* Safety Guides Card */}
+        <div className="p-6 rounded-3xl bg-navy-900 border border-navy-800 flex flex-col justify-between space-y-4 shadow-sm hover:border-brand-500/40 transition-colors">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <div className="w-10 h-10 rounded-xl bg-pinkAccent-950 border border-pinkAccent-700/40 flex items-center justify-center text-pinkAccent-300">
+                <BookOpen className="w-5 h-5" />
+              </div>
+              <span className="text-[11px] font-semibold text-pinkAccent-300 bg-pinkAccent-950/60 px-2.5 py-0.5 rounded-full border border-pinkAccent-800 font-mono">
+                Knowledge
+              </span>
+            </div>
+            <h4 className="text-base font-bold text-white">Safety Guides & Legal Rights</h4>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Explore commute protocols, cyber protection checklists, and verified statutory legal rights under Indian law (Zero FIR, Free Aid).
+            </p>
+          </div>
+
+          <Link
+            to="/safety-guides"
+            className="w-full py-2.5 rounded-xl bg-navy-800 hover:bg-navy-750 text-slate-200 border border-navy-700 text-xs font-semibold transition-colors flex items-center justify-center space-x-1.5"
+          >
+            <BookOpen className="w-4 h-4 text-pinkAccent-400" />
+            <span>Explore Safety Guides</span>
+          </Link>
+        </div>
+
       </div>
 
       {/* Safety Helplines Quick Reminder */}

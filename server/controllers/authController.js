@@ -150,3 +150,67 @@ export const getMe = async (req, res) => {
   });
 };
 
+/**
+ * @desc    Update user profile (name, phone)
+ * @route   PATCH /api/auth/profile
+ * @access  Private (Protected by JWT)
+ */
+export const updateProfile = async (req, res, next) => {
+  try {
+    const { name, phone } = req.body;
+
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User account not found',
+      });
+    }
+
+    if (name !== undefined) {
+      const trimmedName = name.trim();
+      if (trimmedName.length < 2) {
+        return res.status(400).json({
+          success: false,
+          message: 'Name must be at least 2 characters long',
+        });
+      }
+      if (trimmedName.length > 60) {
+        return res.status(400).json({
+          success: false,
+          message: 'Name cannot exceed 60 characters',
+        });
+      }
+      user.name = trimmedName;
+    }
+
+    if (phone !== undefined) {
+      const trimmedPhone = phone.trim();
+      if (trimmedPhone && !/^\+?[0-9\s\-()]{7,20}$/.test(trimmedPhone)) {
+        return res.status(400).json({
+          success: false,
+          message: 'Please provide a valid phone number (e.g. +91 98765 43210 or 10 digits)',
+        });
+      }
+      user.phone = trimmedPhone;
+    }
+
+    const updatedUser = await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Profile updated successfully',
+      user: {
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        phone: updatedUser.phone,
+        createdAt: updatedUser.createdAt,
+        updatedAt: updatedUser.updatedAt,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+

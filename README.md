@@ -143,9 +143,11 @@ The frontend will start at `http://localhost:5173`.
   - SafetyResource Mongoose model with proximity calculations (Haversine formula)
   - Category filters (Police Outposts, Hospitals, Community Safe Havens)
   - Interactive resource markers, dark popups, search filtering, and call shortcuts
-- [ ] **Phase 6: Incident Audit History & Safety Guides**
-  - Historical emergency event timeline
-  - Self-defense and preventative safety tips repository
+- [x] **Phase 6: Incident History, Safety Guides & User Profile**
+  - **Module 1: Emergency Incident Log**: Full timeline with status filtering (Active, Resolved, Cancelled), date range picker, sorting, detailed audit inspection modal, and OpenStreetMap pin links.
+  - **Module 2: Comprehensive Safety Guides**: Categorized actionable repositories (Commute Safety, Cyber Safety, Crisis Response, and Constitutional/Legal Rights including Zero FIR & Free Legal Aid) with real-time keyword search and `localStorage` bookmark persistence.
+  - **Module 3: User Profile & Security Settings**: Protected `PATCH /api/auth/profile` endpoint with server-side validation, field immutability guards (email, password, `_id` protected against tampering), account metrics, and security checklists.
+  - **Full Automated Testing**: 22 dedicated automated test cases verifying profile updates, tamper resistance, and cross-user incident history data isolation (76 total passing tests across the project).
 - [ ] **Phase 7: Testing, Hardening & Deployment**
   - Frontend deployment on Vercel
   - Backend deployment on Render

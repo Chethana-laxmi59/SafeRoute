@@ -9,6 +9,9 @@ import DashboardPage from './pages/DashboardPage';
 import ContactsPage from './pages/ContactsPage';
 import EmergencySOSPage from './pages/EmergencySOSPage';
 import SafetyMapPage from './pages/SafetyMapPage';
+import IncidentHistoryPage from './pages/IncidentHistoryPage';
+import SafetyGuidesPage from './pages/SafetyGuidesPage';
+import ProfilePage from './pages/ProfilePage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -52,6 +55,30 @@ function App() {
               element={
                 <ProtectedRoute>
                   <SafetyMapPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="incident-history"
+              element={
+                <ProtectedRoute>
+                  <IncidentHistoryPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="safety-guides"
+              element={
+                <ProtectedRoute>
+                  <SafetyGuidesPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
                 </ProtectedRoute>
               }
             />
