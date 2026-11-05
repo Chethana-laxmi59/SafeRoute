@@ -131,10 +131,12 @@ The frontend will start at `http://localhost:5173`.
   - Full CRUD REST API with ownership authorization and phone format validation
   - Strict cross-user data isolation enforcement (403 Forbidden on cross-user access)
   - Responsive Contact Circle management UI with Add/Edit modal, empty states, search filtering, and quick dial/SMS actions
-- [ ] **Phase 4: Emergency SOS & Geolocation Broadcast**
-  - Browser Geolocation API integration with explicit permission prompts
-  - EmergencyEvent model & incident dispatcher
-  - Live SOS activation UI with audio/visual feedback and delivery status
+- [x] **Phase 4: Emergency SOS & Geolocation Broadcast**
+  - EmergencyEvent Mongoose model with coordinates, accuracy, and audit log
+  - Browser Geolocation API hook with strict consent-first triggering and error handling
+  - Full SOS lifecycle API (create, get history, get active, resolve, cancel)
+  - Clear Academic Demo Mode enforcement with zero false delivery claims
+  - Live Emergency SOS Hub UI with pulsing radar trigger, location status, and resolve/cancel actions
 - [ ] **Phase 5: Interactive Safety Map & Resource Finder**
   - Leaflet / OpenStreetMap integration
   - Current location marker and safe haven overlays (police kiosks, hospitals)

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Menu, X, PhoneCall, AlertTriangle, User, LogOut, LayoutDashboard, Users } from 'lucide-react';
+import { Shield, Menu, X, PhoneCall, AlertTriangle, User, LogOut, LayoutDashboard, Users, BellRing } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -75,6 +75,14 @@ const Navbar = () => {
                 >
                   <Users className="w-4 h-4 text-pinkAccent-400" />
                   <span>Trusted Circle</span>
+                </Link>
+
+                <Link
+                  to="/sos"
+                  className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-rose-950/80 hover:bg-rose-900/90 text-rose-300 border border-rose-800/80 text-xs font-bold transition-all shadow-sm"
+                >
+                  <BellRing className="w-3.5 h-3.5 text-rose-400 animate-pulse" />
+                  <span>SOS Alert</span>
                 </Link>
 
                 <div className="flex items-center space-x-2 pl-2 border-l border-navy-800">
@@ -172,6 +180,14 @@ const Navbar = () => {
                 >
                   <Users className="w-4 h-4" />
                   <span>Trusted Guardian Circle</span>
+                </Link>
+                <Link
+                  to="/sos"
+                  onClick={() => setIsOpen(false)}
+                  className="w-full flex items-center justify-center space-x-2 py-2.5 rounded-lg text-sm font-bold text-white bg-rose-600 hover:bg-rose-500 shadow-md"
+                >
+                  <BellRing className="w-4 h-4 animate-pulse" />
+                  <span>🚨 Trigger Emergency SOS</span>
                 </Link>
                 <button
                   onClick={handleLogout}

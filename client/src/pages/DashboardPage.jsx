@@ -24,22 +24,30 @@ const DashboardPage = () => {
   const { user, logout } = useAuth();
   const [contactCount, setContactCount] = useState(0);
   const [loadingContacts, setLoadingContacts] = useState(true);
+  const [activeSOS, setActiveSOS] = useState(null);
 
   useEffect(() => {
-    const fetchContactCount = async () => {
+    const fetchDashboardData = async () => {
       try {
-        const response = await api.get('/contacts');
-        if (response.data?.success) {
-          setContactCount(response.data.count || 0);
+        const [contactsRes, sosRes] = await Promise.allSettled([
+          api.get('/contacts'),
+          api.get('/sos/active'),
+        ]);
+
+        if (contactsRes.status === 'fulfilled' && contactsRes.value.data?.success) {
+          setContactCount(contactsRes.value.data.count || 0);
+        }
+        if (sosRes.status === 'fulfilled' && sosRes.value.data?.success) {
+          setActiveSOS(sosRes.value.data.event);
         }
       } catch (err) {
-        console.warn('Could not fetch contact count:', err.message);
+        console.warn('Could not fetch dashboard metrics:', err.message);
       } finally {
         setLoadingContacts(false);
       }
     };
 
-    fetchContactCount();
+    fetchDashboardData();
   }, []);
 
   // Format date helper
@@ -183,15 +191,21 @@ const DashboardPage = () => {
           </div>
         </div>
 
-        {/* Phase 4 Roadmap Banner: Instant SOS Dispatcher */}
-        <div className="p-6 rounded-2xl bg-navy-900 border border-navy-800 flex flex-col justify-between space-y-4">
+        {/* Emergency SOS Dispatcher Card */}
+        <div className={`p-6 rounded-2xl bg-navy-900 border flex flex-col justify-between space-y-4 ${
+          activeSOS ? 'border-rose-500/80 shadow-lg shadow-rose-950/40' : 'border-navy-800'
+        }`}>
           <div>
             <div className="flex items-center justify-between mb-4">
               <div className="w-10 h-10 rounded-xl bg-rose-950 border border-rose-700/50 flex items-center justify-center text-rose-400">
-                <BellRing className="w-5 h-5" />
+                <BellRing className={`w-5 h-5 ${activeSOS && 'animate-bounce text-rose-300'}`} />
               </div>
-              <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-rose-950 text-rose-300 border border-rose-800">
-                Module 4 Target
+              <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${
+                activeSOS
+                  ? 'bg-rose-950 text-rose-300 border-rose-500 animate-pulse'
+                  : 'bg-emerald-950 text-emerald-300 border-emerald-800'
+              }`}>
+                {activeSOS ? '🚨 SOS ACTIVE' : 'System Armed'}
               </span>
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Instant Emergency SOS</h3>
@@ -199,23 +213,34 @@ const DashboardPage = () => {
               One-touch distress broadcast system with explicit user location consent and real-time delivery confirmation.
             </p>
             <div className="p-3 rounded-xl bg-navy-850 border border-navy-700/70 text-xs text-slate-300 space-y-1.5">
-              <div className="font-semibold text-rose-400 flex items-center space-x-1.5">
-                <span className="w-2 h-2 rounded-full bg-rose-400 animate-pulse"></span>
-                <span>Standby Status</span>
+              <div className="font-semibold flex items-center space-x-1.5">
+                <span className={`w-2 h-2 rounded-full ${activeSOS ? 'bg-rose-400 animate-ping' : 'bg-emerald-400'}`}></span>
+                <span className={activeSOS ? 'text-rose-400 font-bold' : 'text-emerald-400'}>
+                  {activeSOS ? 'Distress Broadcast Ongoing' : 'Ready on Standby'}
+                </span>
               </div>
               <p className="text-[11px] text-slate-400">
-                Requires trusted contacts setup (Phase 3) before live dispatch activation.
+                {activeSOS
+                  ? 'An emergency alert is active. Open SOS Center to manage or resolve.'
+                  : contactCount > 0
+                  ? `Ready to broadcast coordinates to ${contactCount} guardian(s).`
+                  : 'Add contacts to enable guardian notifications.'}
               </p>
             </div>
           </div>
 
           <div className="pt-2">
-            <button
-              disabled
-              className="w-full py-2.5 rounded-xl bg-rose-950/40 text-rose-400 text-xs font-semibold cursor-not-allowed border border-rose-800/40 flex items-center justify-center space-x-1"
+            <Link
+              to="/sos"
+              className={`w-full py-2.5 rounded-xl text-white text-xs font-bold transition-all flex items-center justify-center space-x-1.5 ${
+                activeSOS
+                  ? 'bg-rose-600 hover:bg-rose-500 shadow-lg shadow-rose-950'
+                  : 'bg-gradient-to-r from-rose-600 to-pinkAccent-600 hover:from-rose-500 hover:to-pinkAccent-500 shadow-soft-purple'
+              }`}
             >
-              <span>SOS Dispatcher (Available in Phase 4)</span>
-            </button>
+              <BellRing className="w-4 h-4" />
+              <span>{activeSOS ? 'View Active SOS Incident' : 'Open Emergency SOS Center'}</span>
+            </Link>
           </div>
         </div>
 

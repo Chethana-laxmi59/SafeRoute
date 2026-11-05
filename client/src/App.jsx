@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import ContactsPage from './pages/ContactsPage';
+import EmergencySOSPage from './pages/EmergencySOSPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -34,6 +35,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <ContactsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="sos"
+              element={
+                <ProtectedRoute>
+                  <EmergencySOSPage />
                 </ProtectedRoute>
               }
             />
